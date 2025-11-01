@@ -610,4 +610,75 @@ export default function App() {
                         <input
                           type="checkbox"
                           checked={movie.earlyKiss || false}
-                          
+                          onChange={(e) => updateMovie(movie.id, { earlyKiss: e.target.checked })}
+                          className="w-5 h-5 accent-red-600 cursor-pointer"
+                        />
+                        <span className="text-gray-700">Kiss Before Final Scene 💋</span>
+                      </label>
+                      
+                      <CategorySlider
+                        label="Drinking Activity Level (1=None, 5=Constant Wine/Cocoa)"
+                        value={movie.drinkingLevel || 3}
+                        onChange={(val) => updateMovie(movie.id, { drinkingLevel: val })}
+                      />
+                    </div>
+                    
+                    <div className="mt-4 p-3 bg-red-50 rounded-lg">
+                      <span className="font-semibold text-red-800">
+                        Calculated Score: {calculateOverallScore(movie)}/5.0
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Notes</label>
+                  <textarea
+                    value={movie.notes}
+                    onChange={(e) => updateMovie(movie.id, { notes: e.target.value })}
+                    placeholder="Favorite moments, plot twists, or thoughts..."
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 resize-none"
+                    rows="2"
+                  />
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+
+        {movies.length > 0 && (
+          <div className="bg-white rounded-lg shadow-lg p-6 mt-6">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Season Statistics</h3>
+            <div className="grid md:grid-cols-4 gap-4 text-center">
+              <div>
+                <p className="text-3xl font-bold text-red-600">{movies.length}</p>
+                <p className="text-gray-600">Total Movies</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-green-600">
+                  {movies.filter(m => m.watched).length}
+                </p>
+                <p className="text-gray-600">Watched</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-yellow-600">
+                  {movies.filter(m => m.rating >= 4).length}
+                </p>
+                <p className="text-gray-600">4+ Stars</p>
+              </div>
+              <div>
+                <p className="text-3xl font-bold text-blue-600">
+                  {movies.filter(m => m.watched).length > 0
+                    ? (movies.filter(m => m.watched).reduce((sum, m) => sum + m.rating, 0) / 
+                       movies.filter(m => m.watched).length).toFixed(1)
+                    : '0.0'}
+                </p>
+                <p className="text-gray-600">Avg Rating</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
