@@ -44,6 +44,7 @@ lerna-debug.log*
 
 # Cloudflare
 .wrangler
+# Note: wrangler.jsonc is committed, but exclude local wrangler.toml
 wrangler.toml
 
 # Testing
